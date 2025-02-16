@@ -7,13 +7,18 @@ import (
 	"strings"
 )
 
+type Config struct {
+	Next     string `json:"next"`
+	Previous string `json:"previous"`
+}
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*Config) error
 }
 
-func startRepl() {
+func startRepl(config *Config) {
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -27,7 +32,7 @@ func startRepl() {
 		commandName := words[0]
 		command, exists := GetCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(config)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -56,6 +61,16 @@ func GetCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exit the Pokedex",
 			callback:    commandExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Display first 20 Pokemon locations",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Display previous 20 Pokemon locations",
+			callback:    commandMapb,
 		},
 	}
 }
