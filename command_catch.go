@@ -8,12 +8,6 @@ import (
 	"net/http"
 )
 
-type PokemonName struct {
-	Pokemon struct {
-		Name string `json:"name"`
-	} `json:"pokemon"`
-}
-
 type BaseExperience struct {
 	BaseExperience int `json:"base_experience"`
 }
