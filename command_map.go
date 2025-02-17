@@ -17,7 +17,7 @@ type PokemonResponse struct {
 	Previous string    `json:"previous"`
 }
 
-func commandMap(config *Config) error {
+func commandMap(config *Config, args []string) error {
 	baseURL := "https://pokeapi.co/api/v2/location-area"
 
 	url := baseURL
@@ -72,7 +72,7 @@ func commandMap(config *Config) error {
 	return nil
 }
 
-func commandMapb(config *Config) error {
+func commandMapb(config *Config, args []string) error {
 	baseURL := "https://pokeapi.co/api/v2/location-area"
 
 	url := baseURL
