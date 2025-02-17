@@ -56,12 +56,12 @@ func processBaseExperienceResponse(config *Config, data []byte, args string) err
 	fmt.Printf("Throwing a pokeball at %s...\n", args)
 
 	experience := rand.Intn(response.BaseExperience)
-	fmt.Printf("%s has %d experience points\n", args, experience)
 
 	if experience > 50 {
 		fmt.Printf("%s escaped!\n", args)
 	} else {
 		fmt.Printf("%s was caught!\n", args)
+		fmt.Println("You may now inspect it with the inspect command.")
 		config.Player = append(config.Player, Pokemon{Name: args})
 	}
 
