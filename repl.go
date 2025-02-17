@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/OsamaNagi/pokedex/internals"
 )
 
 type Config struct {
-	Next     string `json:"next"`
-	Previous string `json:"previous"`
+	Next     string
+	Previous string
+	Cache    *internals.Cache
 }
 
 type cliCommand struct {

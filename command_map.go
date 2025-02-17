@@ -25,6 +25,23 @@ func commandMap(config *Config) error {
 		url = config.Next
 	}
 
+	if v, ok := config.Cache.Get(url); ok {
+		fmt.Println("**[Using cached response]**")
+		var pokemonResp PokemonResponse
+		if err := json.Unmarshal(v, &pokemonResp); err != nil {
+			fmt.Println("error unmarshaling JSON:", err)
+			return err
+		}
+
+		config.Next = pokemonResp.Next
+		config.Previous = pokemonResp.Previous
+		for _, location := range pokemonResp.Results {
+			fmt.Println(location.Name)
+		}
+
+		return nil
+	}
+
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("error making request:", err)
@@ -45,11 +62,13 @@ func commandMap(config *Config) error {
 	}
 
 	config.Next = pokemonResp.Next
+	config.Previous = pokemonResp.Previous
 
 	for _, location := range pokemonResp.Results {
 		fmt.Println(location.Name)
 	}
 
+	config.Cache.Add(url, body)
 	return nil
 }
 
@@ -59,6 +78,23 @@ func commandMapb(config *Config) error {
 	url := baseURL
 	if config.Previous != "" {
 		url = config.Previous
+	}
+
+	if v, ok := config.Cache.Get(url); ok {
+		fmt.Println("**[Using cached response]**")
+		var pokemonResp PokemonResponse
+		if err := json.Unmarshal(v, &pokemonResp); err != nil {
+			fmt.Println("error unmarshaling JSON:", err)
+			return err
+		}
+
+		config.Next = pokemonResp.Next
+		config.Previous = pokemonResp.Previous
+		for _, location := range pokemonResp.Results {
+			fmt.Println(location.Name)
+		}
+
+		return nil
 	}
 
 	resp, err := http.Get(url)
@@ -80,11 +116,14 @@ func commandMapb(config *Config) error {
 		return err
 	}
 
+	config.Next = pokemonResp.Next
 	config.Previous = pokemonResp.Previous
 
 	for _, location := range pokemonResp.Results {
 		fmt.Println(location.Name)
 	}
+
+	config.Cache.Add(url, body)
 
 	return nil
 }
