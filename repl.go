@@ -13,6 +13,7 @@ type Config struct {
 	Next     string
 	Previous string
 	Cache    *internals.Cache
+	Player   []Pokemon
 }
 
 type cliCommand struct {
@@ -64,11 +65,6 @@ func GetCommands() map[string]cliCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
-		"exit": {
-			name:        "exit",
-			description: "Exit the Pokedex",
-			callback:    commandExit,
-		},
 		"map": {
 			name:        "map",
 			description: "Display first 20 Pokemon locations",
@@ -83,6 +79,16 @@ func GetCommands() map[string]cliCommand {
 			name:        "explore",
 			description: "Explore a Pokemon location",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Catch a Pokemon",
+			callback:    commandCatch,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
 		},
 	}
 }

@@ -8,7 +8,8 @@ import (
 
 func main() {
 	config := &Config{
-		Cache: internals.NewCache(5 * time.Second),
+		Cache:  internals.NewCache(5 * time.Second),
+		Player: make([]Pokemon, 0),
 	}
 	startRepl(config)
 }
